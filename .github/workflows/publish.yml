@@ -26,6 +26,7 @@ jobs:
         npm ci
         npm run build:clean
         npm run build
+        npm run test
     - name: Publish NPM Packages
       shell: bash
       env:
@@ -33,11 +34,3 @@ jobs:
       # Update the following list when a new npm package is added
       run: |
         npm run publish:latest --provenance --workspace=generator-anytext
-    - name: Publish VSCode Extension
-      shell: bash
-      run: |
-        npm install -g @vscode/vsce ovsx
-        cd packages/nmeta-vscode
-        PACKAGE_VERSION=`npm pkg get version --workspaces=false | tr -d \"`
-        vsce package
-        vsce publish -i nmeta-vscode-$PACKAGE_VERSION.vsix -p ${{ secrets.VSCE_TOKEN }}

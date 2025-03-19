@@ -30,3 +30,4 @@ jobs:
         npm ci
         npm run build:clean
         npm run build
+        npm run test
