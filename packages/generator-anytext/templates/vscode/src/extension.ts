@@ -31,14 +31,14 @@ export function activate(context: vscode.ExtensionContext)
         debug: serverDebug
     };
 
-    const fileSystemWatcher = vscode.workspace.createFileSystemWatcher('**/*.<%= file-extension %>');
+    const fileSystemWatcher = vscode.workspace.createFileSystemWatcher('**/*.<%= file-glob-extension %>');
     context.subscriptions.push(fileSystemWatcher);
 
     const clientOptions: LanguageClientOptions =
     {
         // Register the server for plain text documents
         documentSelector: [
-            {language: '<%= language-id %>'}
+            { language: '<%= language-id %>' }
             // add more language ids if your server supports other languages
         ],
         synchronize: {
@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext)
 
     client.registerProposedFeatures();
 
-    console.log('LSP for <%= LanguageName %> is now active!');
+    console.log('LSP for <%= RawLanguageName %> is now active!');
     client.start();
 }
 

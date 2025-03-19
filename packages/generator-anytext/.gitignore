@@ -1,2 +1,4 @@
 app/
 test-temp/
+obj/
+srv/

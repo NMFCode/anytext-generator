@@ -21,7 +21,7 @@ const USER_DIR = '.';
 
 const EXTENSION_NAME = /<%= extension-name %>/g;
 const RAW_LANGUAGE_NAME = /<%= RawLanguageName %>/g;
-const REPOSITORY = /"?<%= Repository %>"?/g;
+const REPOSITORY = /<%= Repository %>/g;
 const FILE_EXTENSION = /"?<%= file-extension %>"?/g;
 const FILE_EXTENSION_GLOB = /<%= file-glob-extension %>/g;
 const TSCONFIG_BASE_NAME = /<%= tsconfig %>/g;
@@ -143,7 +143,7 @@ export class NMFGenerator extends Generator {
         };
 
         this.sourceRoot(path.join(__dirname, TEMPLATE_VSCODE_DIR));
-        for (const path of ['.']) {
+        for (const path of ['.', '.vscode/launch.json', '.vscodeignore']) {
             this.fs.copy(
                 this.templatePath(path),
                 this._extensionPath('vscode/' + path),

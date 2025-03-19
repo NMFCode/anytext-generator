@@ -6,3 +6,5 @@ node_modules/
 out/
 bin/
 obj/
+srv/
+dist/

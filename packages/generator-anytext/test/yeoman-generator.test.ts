@@ -19,24 +19,27 @@ const answersForCore: Answers & PostAnwers = {
     openWith: false
 };
 
-describe('Check yeoman generator works', () => {
+describe('yeoman', () => {
     const packageTestDir = url.fileURLToPath(new URL('.', import.meta.url));
     const moduleRoot = path.join(packageTestDir, '../app');
 
     const files = (targetRoot: string) => [
-        targetRoot + '/.eslintrc.json',
         targetRoot + '/.gitignore',
-        targetRoot + '/quickstart.md',
-        targetRoot + '/tsconfig.json',
-        targetRoot + '/package.json',
-        targetRoot + '/.vscode/extensions.json',
-        targetRoot + '/.vscode/tasks.json',
-        targetRoot + '/src/language/hello-world-module.ts',
-        targetRoot + '/src/language/hello-world-validator.ts',
-        targetRoot + '/src/language/hello-world.langium'
+        targetRoot + '/backend/HelloWorld.anytext',
+        targetRoot + '/backend/HelloWorldLspServer.csproj',
+        targetRoot + '/backend/HelloWorldLspServer.sln',
+        targetRoot + '/backend/Program.cs',
+        targetRoot + '/vscode/.vscode/launch.json',
+        targetRoot + '/vscode/src/extension.ts',
+        targetRoot + '/vscode/.vscodeignore',
+        targetRoot + '/vscode/esbuild.js',
+        targetRoot + '/vscode/LICENSE.md',
+        targetRoot + '/vscode/package.json',
+        targetRoot + '/vscode/README.md',
+        targetRoot + '/vscode/tsconfig.json'
     ];
 
-    test('1 Should produce files for Core', async () => {
+    test('should produce files at the correct location', async () => {
 
         const context = createHelpers({}).run(path.join(moduleRoot));
 
@@ -63,16 +66,13 @@ describe('Check yeoman generator works', () => {
                 const projectRoot = targetRoot + '/' + extensionName;
 
                 result.assertFile(files(projectRoot));
-
-                result.assertJsonFileContent(projectRoot + '/package.json', PACKAGE_JSON_EXPECTATION);
-                result.assertFileContent(projectRoot + '/.vscode/tasks.json', TASKS_JSON_EXPECTATION);
             }).finally(() => {
                 context.cleanTestDirectory(true);
             });
         context.cleanTestDirectory(true); // clean-up examples/hello-world
     }, 120_000);
 
-    test('2 Should produce files for Core & CLI & test', async () => {
+    test('should produce files with correct content', async () => {
 
         const context = createHelpers({}).run<NMFGenerator>(path.join(moduleRoot));
 
@@ -101,78 +101,61 @@ describe('Check yeoman generator works', () => {
                 includeTest: true
             }).then((result) => {
                 const projectRoot = targetRoot + '/' + extensionName;
-                result.assertJsonFileContent(projectRoot + '/package.json', {
-                    ...PACKAGE_JSON_EXPECTATION,
-                    files: [ 'bin', 'out', 'src' ],
-                    scripts: {
-                        ...PACKAGE_JSON_EXPECTATION.scripts,
-                        build: PACKAGE_JSON_EXPECTATION.scripts.build.replace(/tsconfig.json/, 'tsconfig.src.json'),
-                        watch: PACKAGE_JSON_EXPECTATION.scripts.watch.replace(/tsconfig.json/, 'tsconfig.src.json')
-                    }
-                });
-
-                const returnVal = result.generator.spawnSync('npm', ['test'], {
-                    cwd: result.generator._extensionPath()
-                });
-
-                result.assertTextEqual(String(returnVal.exitCode), '0');
-
+                result.assertJsonFileContent(projectRoot + '/vscode/package.json', PACKAGE_JSON_EXPECTATION);
             }).finally(() => {
                 context.cleanTestDirectory(true);
             });
     }, 120_000);
 });
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const langiumVersion = `~${require('../../langium/package.json').version}`;
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const langiumCliVersion = `~${require('../../langium-cli/package.json').version}`;
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PACKAGE_JSON_EXPECTATION: Record<string, any> = {
-    name: 'hello-world',
-    description: 'Please enter a brief description here',
-    version: '0.0.1',
-    files: ['out', 'src'],
-    scripts: {
-        'build': 'tsc -b tsconfig.json',
-        'watch': 'tsc -b tsconfig.json --watch',
-        'lint': 'eslint src --ext ts',
-        'langium:generate': 'langium generate',
-        'langium:watch': 'langium generate --watch'
+    name: 'hello-world-vscode',
+    'author': '<Your Name>',
+    'publisher': '<Your Name>',
+    'displayName': 'Hello World Extension for Visual Studio Code',
+    'categories': [
+        'Programming Languages',
+        'Other'
+    ],
+    'description': '<Enter some description here>',
+    'keywords': [
+        'lsp'
+    ],
+    'license': 'MIT',
+    'homepage': 'http://example',
+    'bugs': {
+        'url': 'http://example/issues'
+    },
+    'repository': {
+        'type': 'git',
+        'url': 'http://example.git'
+    },
+    'version': '0.0.1',
+    'engines': {
+        'vscode': '^1.67.0',
+        'node': '>=16.0.0'
+    },
+    'activationEvents': [
+        'onLanguage'
+    ],
+    'main': './dist/extension',
+    'contributes': {
+        'languages': [
+            {
+                'id': 'hello-world',
+                'extensions': [
+                    '.hello'
+                ]
+            }
+        ]
+    },
+    'scripts': {
+        'compile': 'npm run check-types && node esbuild.js',
+        'vscode:prepublish': 'npm run package',
+        'package': 'npm run check-types && node esbuild.js --production'
     },
     'dependencies': {
-        'langium': langiumVersion
+        'hello-world-vscode': 'file:',
     },
-    'devDependencies': {
-        '@types/node': '^18.0.0',
-        '@typescript-eslint/eslint-plugin': '~7.3.1',
-        '@typescript-eslint/parser': '~7.3.1',
-        'eslint': '~8.57.0',
-        'langium-cli': langiumCliVersion,
-        'typescript': '~5.1.6'
-    }
 };
-
-const TASKS_JSON_EXPECTATION = `{
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Build hello-world",
-            "command": "npm run langium:generate && npm run build",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Langium: Generate grammar and build the hello-world language",
-            "icon": {
-                "color": "terminal.ansiGreen",
-                "id": "server-process"
-            }
-        }
-    ]
-}
-`;

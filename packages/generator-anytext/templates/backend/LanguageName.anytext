@@ -1,4 +1,4 @@
-﻿grammar LanguageId ( langid )
+﻿grammar <%= LanguageName %> ( <%= language-id %> )
 root Greetings
 
 comment '//'
