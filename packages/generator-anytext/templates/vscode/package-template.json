@@ -1,0 +1,87 @@
+{
+  "name": "<%= language-id %>-vscode",
+  "author": "<Your Name>",
+  "publisher": "<Your Name>",
+  "displayName": "<%= LanguageName %> Extension for Visual Studio Code",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "description": "<Enter some description here>",
+  "keywords": [
+    "lsp"
+  ],
+  "license": "MIT",
+  "homepage": "<%= Repository %>",
+  "bugs": {
+    "url": "<%= Repository %>/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "<%= Repository %>.git"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.67.0",
+    "node": ">=16.0.0"
+  },
+  "activationEvents": [
+    "onLanguage"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "<%= language-id %>",
+        "extensions": [
+          <%= file-extension %>
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "<%= LanguageName %> configuration",
+      "properties": {
+        "<%= language-id %>.maxNumberOfProblems": {
+          "scope": "resource",
+          "type": "number",
+          "default": 100,
+          "description": "Controls the maximum number of problems produced by the server."
+        },
+        "<%= language-id %>.trace.server": {
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the language server."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm install",
+    "compile": "tsc -p ./"
+  },
+  "dependencies": {
+    "abort-controller": "3.0.0",
+    "<%= language-id %>-vscode": "file:",
+    "jsonc-parser": "2.3.0",
+    "vscode-languageclient": "~9.0.1",
+    "vscode-languageserver": "~9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "~16.18.41",
+    "@types/vscode": "~1.67.0",
+    "@typescript-eslint/eslint-plugin": "~6.4.1",
+    "@typescript-eslint/parser": "~6.4.1",
+    "@vscode/vsce": "^2.19.0",
+    "concurrently": "~8.2.1",
+    "esbuild": "~0.19.2",
+    "eslint": "~8.47.0",
+    "typescript": "~5.1.6"
+  }
+}

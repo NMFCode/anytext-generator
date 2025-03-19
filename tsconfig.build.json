@@ -1,0 +1,7 @@
+{
+    "files": [],
+    "references": [
+        { "path": "./packages/generator-anytext/tsconfig.src.json" },
+        { "path": "./packages/generator-anytext/tsconfig.test.json" }
+    ]
+ }

@@ -1,0 +1,43 @@
+name: Publish
+
+permissions:
+  id-token: write
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Anytext Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        registry-url: 'https://registry.npmjs.org'
+    - name: Build
+      shell: bash
+      run: |
+        npm ci
+        npm run build:clean
+        npm run build
+    - name: Publish NPM Packages
+      shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Update the following list when a new npm package is added
+      run: |
+        npm run publish:latest --provenance --workspace=generator-anytext
+    - name: Publish VSCode Extension
+      shell: bash
+      run: |
+        npm install -g @vscode/vsce ovsx
+        cd packages/nmeta-vscode
+        PACKAGE_VERSION=`npm pkg get version --workspaces=false | tr -d \"`
+        vsce package
+        vsce publish -i nmeta-vscode-$PACKAGE_VERSION.vsix -p ${{ secrets.VSCE_TOKEN }}

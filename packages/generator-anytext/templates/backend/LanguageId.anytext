@@ -1,0 +1,15 @@
+﻿grammar LanguageId ( langid )
+root Greetings
+
+comment '//'
+
+Greetings:
+    ( people+=Person | greetings+=Greeting )*;
+
+Person:
+    'person' name=String;
+Greeting:
+    'hello' greeted=[Person];
+
+terminal String returns nmeta.String:
+    /\w+/;
