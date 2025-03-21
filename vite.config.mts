@@ -11,13 +11,13 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             reporter: ['text', 'html'],
-            include: ['packages/generator-nmfglsp/src'],
+            include: ['packages/generator-anytext/src'],
             exclude: ['**/generated', '**/templates'],
         },
         deps: {
             interopDefault: true
         },
         include: ['**/test/**/*.test.ts'],
-        exclude: ['**/node_modules/**', '**/dist/**', '**/generated/**', '**/templates/**'],
+        exclude: ['**/node_modules/**', '**/dist/**', '**/generated/**', '**/templates/**', 'examples/**'],
     }
 });
