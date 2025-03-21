@@ -45,7 +45,7 @@ export interface PostAnwers {
 }
 
 function printLogo(log: (message: string) => void): void {
-    log('This is the client code generator for NMF');
+    log('This is the client code generator for NMF AnyText');
 }
 
 function description(...d: string[]): string {
@@ -71,7 +71,7 @@ export class NMFGenerator extends Generator {
                     'The extension name is an identifier used in the extension marketplace or package registry.'
                 ),
                 message: 'Your extension name:',
-                default: 'hello-world',
+                default: 'helloworld',
             },
             {
                 type: 'input',
@@ -176,10 +176,10 @@ export class NMFGenerator extends Generator {
 
         const opts = { cwd: extensionPath };
         if(!this.args.includes('skip-install')) {
-            this.spawnSync('npm', ['link'], opts);
             this.spawnSync('npm', ['install'], opts);
             this.spawnSync('dotnet', ['tool', 'install', 'anytextgen', '--global'], opts);
-            this.spawnSync('anytextgen', ['generate-parser', 'backend'], opts);
+            this.spawnSync('npm', ['run', 'generate-parser'], opts);
+            this.spawnSync('npm', ['run', 'generate-metamodel'], opts);
             this.spawnSync('dotnet', ['build', 'backend'], opts);
         }
     }
