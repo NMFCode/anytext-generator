@@ -6,11 +6,11 @@
             "type": "extensionHost",
             "request": "launch",
             "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
+                "--extensionDevelopmentPath=${workspaceFolder}/vscode"
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
+                "${workspaceFolder}/vscode/out/**/*.js"
             ]
         }
     ]

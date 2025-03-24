@@ -1,9 +1,9 @@
 ﻿grammar <%= LanguageName %> ( <%= language-id %> )
-root Greetings
+root GreetingModel
 
 comment '//'
 
-Greetings:
+GreetingModel:
     ( people+=Person | greetings+=Greeting )*;
 
 Person:

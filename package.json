@@ -11,7 +11,7 @@
     "build": "tsc -b tsconfig.build.json",
     "build:clean": "npm run clean && npm run build",
     "lint": "npm run lint --workspaces",
-    "test": "vitest",
+    "test": "tsc -b tsconfig.build.json && vitest run",
     "test-ui": "vitest --ui",
     "coverage": "vitest run --coverage",
     "dev-build": "npm run dev-clean && npm install && npm link ./packages/generator-anytext",

@@ -29,7 +29,7 @@ describe('yeoman', () => {
         targetRoot + '/backend/HelloWorldLspServer.csproj',
         targetRoot + '/backend/HelloWorldLspServer.sln',
         targetRoot + '/backend/Program.cs',
-        targetRoot + '/vscode/.vscode/launch.json',
+        targetRoot + '/.vscode/launch.json',
         targetRoot + '/vscode/src/extension.ts',
         targetRoot + '/vscode/.vscodeignore',
         targetRoot + '/vscode/esbuild.js',
@@ -110,19 +110,8 @@ describe('yeoman', () => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PACKAGE_JSON_EXPECTATION: Record<string, any> = {
-    name: 'hello-world-vscode',
-    'author': '<Your Name>',
-    'publisher': '<Your Name>',
+    name: 'hello-world',
     'displayName': 'Hello World Extension for Visual Studio Code',
-    'categories': [
-        'Programming Languages',
-        'Other'
-    ],
-    'description': '<Enter some description here>',
-    'keywords': [
-        'lsp'
-    ],
-    'license': 'MIT',
     'homepage': 'http://example',
     'bugs': {
         'url': 'http://example/issues'
@@ -137,7 +126,7 @@ const PACKAGE_JSON_EXPECTATION: Record<string, any> = {
         'node': '>=16.0.0'
     },
     'activationEvents': [
-        'onLanguage'
+        'onLanguage:hello-world'
     ],
     'main': './dist/extension',
     'contributes': {
@@ -156,6 +145,6 @@ const PACKAGE_JSON_EXPECTATION: Record<string, any> = {
         'package': 'npm run check-types && node esbuild.js --production'
     },
     'dependencies': {
-        'hello-world-vscode': 'file:',
+        'hello-world': 'file:',
     },
 };

@@ -71,7 +71,7 @@ export class NMFGenerator extends Generator {
                     'The extension name is an identifier used in the extension marketplace or package registry.'
                 ),
                 message: 'Your extension name:',
-                default: 'helloworld',
+                default: 'hello-world',
             },
             {
                 type: 'input',
@@ -82,7 +82,7 @@ export class NMFGenerator extends Generator {
                     'CamelCase and kebab-case variants will be created and used in different parts of the extension and language server.'
                 ),
                 message: 'Your language name:',
-                default: 'Hello World',
+                default: 'Greeting',
                 validate: (input: string): boolean | string =>
                     /^[a-zA-Z].*$/.test(input)
                         ? true
@@ -143,7 +143,7 @@ export class NMFGenerator extends Generator {
         };
 
         this.sourceRoot(path.join(__dirname, TEMPLATE_VSCODE_DIR));
-        for (const path of ['.', '.vscode/launch.json', '.vscodeignore']) {
+        for (const path of ['.', '../.vscode/launch.json', '.vscodeignore']) {
             this.fs.copy(
                 this.templatePath(path),
                 this._extensionPath('vscode/' + path),
@@ -172,15 +172,15 @@ export class NMFGenerator extends Generator {
     }
 
     async install(): Promise<void> {
-        const extensionPath = this._extensionPath();
+        const extensionPath = this._extensionPath('vscode');
 
         const opts = { cwd: extensionPath };
         if(!this.args.includes('skip-install')) {
             this.spawnSync('npm', ['install'], opts);
-            this.spawnSync('dotnet', ['tool', 'install', 'anytextgen', '--global'], opts);
+            this.spawnSync('dotnet', ['tool', 'install', 'nmf-anytextgen', '--global'], opts);
+            this.spawnSync('npm', ['run', 'compile'], opts);
             this.spawnSync('npm', ['run', 'generate-parser'], opts);
             this.spawnSync('npm', ['run', 'generate-metamodel'], opts);
-            this.spawnSync('dotnet', ['build', 'backend'], opts);
         }
     }
 

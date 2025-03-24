@@ -1,7 +1,7 @@
 {
-  "name": "<%= language-id %>-vscode",
-  "author": "<Your Name>",
-  "publisher": "<Your Name>",
+  "name": "<%= language-id %>",
+  "author": "me",
+  "publisher": "me",
   "displayName": "<%= RawLanguageName %> Extension for Visual Studio Code",
   "categories": [
     "Programming Languages",
@@ -26,16 +26,14 @@
     "node": ">=16.0.0"
   },
   "activationEvents": [
-    "onLanguage"
+    "onLanguage:<%= language-id %>"
   ],
   "main": "./dist/extension",
   "contributes": {
     "languages": [
       {
         "id": "<%= language-id %>",
-        "extensions": [
-          <%= file-extension %>
-        ]
+        "extensions": <%= file-extension %>
       }
     ],
     "configuration": {
@@ -70,12 +68,12 @@
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
     "vscode:prepublish": "npm run package",
     "package": "npm run check-types && node esbuild.js --production",
-    "generate-parser": "anytextgen generate-parser ../backend/<%= LanguageName %>.anytext -n <%= LanguageName %>LspServer",
-    "generate-metamodel": "anytextgen generate-code ../backend/<%= LanguageName %>.anytext -n <%= LanguageName %>LspServer --save-metamodel-xmi"
+    "generate-parser": "anytextgen generate-parser ../backend/<%= LanguageName %>.anytext -n <%= LanguageName %>LspServer.<%= LanguageName %>",
+    "generate-metamodel": "anytextgen generate-code ../backend/<%= LanguageName %>.anytext ../backend/<%= LanguageName %>.Metamodel.cs -n <%= LanguageName %>LspServer --save-metamodel-xmi"
   },
   "dependencies": {
     "abort-controller": "3.0.0",
-    "<%= language-id %>-vscode": "file:",
+    "<%= language-id %>": "file:",
     "jsonc-parser": "2.3.0",
     "vscode-languageclient": "~9.0.1",
     "vscode-languageserver": "~9.0.1"
