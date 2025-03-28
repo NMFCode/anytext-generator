@@ -7,9 +7,9 @@ GreetingModel:
     ( people+=Person | greetings+=Greeting )*;
 
 Person:
-    'person' name=String;
+    'person' !'person' name=String <nl>;
 Greeting:
-    'hello' greeted=[Person];
+    'hello' greeted=[Person] <nl>;
 
-terminal String returns nmeta.String:
-    /\w+/;
+terminal String:
+    /\w.*/;

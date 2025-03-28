@@ -82,7 +82,7 @@ export class NMFGenerator extends Generator {
                     'CamelCase and kebab-case variants will be created and used in different parts of the extension and language server.'
                 ),
                 message: 'Your language name:',
-                default: 'Greeting',
+                default: 'Hello World',
                 validate: (input: string): boolean | string =>
                     /^[a-zA-Z].*$/.test(input)
                         ? true
@@ -204,7 +204,7 @@ export class NMFGenerator extends Generator {
                 ]
             });
             if (answer?.openWith) {
-                this.spawn(answer.openWith, [this._extensionPath('vscode')]);
+                this.spawn(answer.openWith, [this._extensionPath()]);
             }
         }
     }
