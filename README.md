@@ -28,7 +28,10 @@ This will ask you a range of questions, like the name of your language and a rep
 
 These artifacts are set up such that they integrate with each other. For example, the build directory of the LSP server is exactly where the VS Code extension is expecting it. Because the code generator also compiles the sources, you can start the extension straight away. Also, you can immediately use `vsce` to pack your extension into a deployable VSIX file.
 
-The extension project also contains scripts that allow you to easily regenerate the grammar and metamodel code once you did some changes.
+The extension project also contains scripts that allow you to easily regenerate the grammar and metamodel code once you did some changes:
+
+* If you only changed the concrete syntax of your language, you can run `npm run generate-parser` to regenerate the internal parser DSL code of your language.
+* If you changed the abstract syntax of your language, you can run `npm run generate-metamodel` to regenerate the code for your changed metamodel.
 
 ## Launching the new extension
 
