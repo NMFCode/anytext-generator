@@ -167,6 +167,7 @@ export class NMFGenerator extends Generator {
             );
         }
 
+        this.fs.copy(this.templatePath('../README.md'), this._extensionPath('README.md'));
         // .gitignore files don't get published to npm, so we need to copy it under a different name
         this.fs.copy(this.templatePath('../gitignore.txt'), this._extensionPath('.gitignore'));
     }

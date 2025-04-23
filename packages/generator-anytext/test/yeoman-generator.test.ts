@@ -25,6 +25,7 @@ describe('yeoman', () => {
 
     const files = (targetRoot: string) => [
         targetRoot + '/.gitignore',
+        targetRoot + '/README.md',
         targetRoot + '/backend/HelloWorld.anytext',
         targetRoot + '/backend/HelloWorldLspServer.csproj',
         targetRoot + '/backend/HelloWorldLspServer.sln',
@@ -142,7 +143,9 @@ const PACKAGE_JSON_EXPECTATION: Record<string, any> = {
     'scripts': {
         'compile': 'npm run check-types && node esbuild.js',
         'vscode:prepublish': 'npm run package',
-        'package': 'npm run check-types && node esbuild.js --production'
+        'package': 'dotnet build ../backend/HelloWorldLspServer.sln --configuration Release && npm run check-types && node esbuild.js --production',
+        'generate-parser': 'anytextgen generate-parser ../backend/HelloWorld.anytext -n HelloWorldLspServer.HelloWorld',
+        'generate-metamodel': 'anytextgen generate-code ../backend/HelloWorld.anytext ../backend/HelloWorld.Metamodel.cs -n HelloWorldLspServer --save-metamodel-xmi'
     },
     'dependencies': {
         'hello-world': 'file:',

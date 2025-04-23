@@ -67,9 +67,10 @@
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
     "vscode:prepublish": "npm run package",
-    "package": "npm run check-types && node esbuild.js --production",
+    "package": "dotnet build ../backend/<%= LanguageName %>LspServer.sln --configuration Release && npm run check-types && node esbuild.js --production",
     "generate-parser": "anytextgen generate-parser ../backend/<%= LanguageName %>.anytext -n <%= LanguageName %>LspServer.<%= LanguageName %>",
-    "generate-metamodel": "anytextgen generate-code ../backend/<%= LanguageName %>.anytext ../backend/<%= LanguageName %>.Metamodel.cs -n <%= LanguageName %>LspServer --save-metamodel-xmi"
+    "generate-metamodel": "anytextgen generate-code ../backend/<%= LanguageName %>.anytext ../backend/<%= LanguageName %>.Metamodel.cs -n <%= LanguageName %>LspServer --save-metamodel-xmi",
+    "compile-backend": "dotnet build ../backend/<%= LanguageName %>LspServer.sln"
   },
   "dependencies": {
     "abort-controller": "3.0.0",
