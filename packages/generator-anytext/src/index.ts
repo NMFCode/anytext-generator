@@ -182,6 +182,7 @@ export class NMFGenerator extends Generator {
             this.spawnSync('npm', ['run', 'compile'], opts);
             this.spawnSync('npm', ['run', 'generate-parser'], opts);
             this.spawnSync('npm', ['run', 'generate-metamodel'], opts);
+            this.spawnSync('npm', ['run', 'compile-backend'], opts);
         }
     }
 
