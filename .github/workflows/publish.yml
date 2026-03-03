@@ -4,8 +4,9 @@ permissions:
   id-token: write
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
@@ -26,6 +27,7 @@ jobs:
         npm ci
         npm run build:clean
         npm run build
+        npm run test
     - name: Publish NPM Packages
       shell: bash
       run: |
