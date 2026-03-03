@@ -28,8 +28,5 @@ jobs:
         npm run build
     - name: Publish NPM Packages
       shell: bash
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # Update the following list when a new npm package is added
       run: |
         npm run publish:latest --provenance --workspace=generator-anytext
